@@ -1,9 +1,17 @@
-import { View, Text } from 'react-native'
+import SignInForm from './SignInForm'
+import { Formik } from 'formik'
+import { View } from 'react-native'
 
 const SignIn = () => {
-  return (
+    const onSubmit = (values) => {
+        console.log(values)
+    }
+  
+    return (
     <View>
-        <Text>Sign in</Text>
+        <Formik initialValues={{username: '', password: ''}} onSubmit={onSubmit}>
+            {({handleSubmit}) => <SignInForm onSubmit={handleSubmit} />}
+        </Formik>
     </View>
   )
 }

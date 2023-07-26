@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { Route, Routes, Navigate } from 'react-router-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
         marginTop: Constants.statusBarHeight,
         flexGrow: 1,
         flexShrink: 1,
+        fontFamily: Platform.select({
+            android: 'sans-serif',
+            ios: 'roboto',
+            default: 'System'
+        })
     }
 })
 

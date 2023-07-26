@@ -1,9 +1,10 @@
-import { View, StyleSheet,Pressable, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#24292e',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
@@ -17,9 +18,12 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   return <View style={styles.container}>
-    <Pressable>
+    <Link to="/">
         <Text style={styles.text}>Repositories</Text>
-    </Pressable>
+    </Link>
+    <Link to="/signin">
+        <Text style={styles.text}>Sign in</Text>
+    </Link>
   </View>;
 };
 

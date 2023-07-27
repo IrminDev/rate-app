@@ -25,7 +25,7 @@ const RepositoryList = () => {
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error : {JSON.stringify(error)}</Text>;
 
-  const repositories = data.repositories
+  const repositories = data.repositories.edges.map((edge) => edge.node);
 
   return (
     <FlatList

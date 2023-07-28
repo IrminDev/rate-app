@@ -21,3 +21,12 @@ export const SIGN_IN = gql`
         }
     }
 `
+
+export const ME = gql`
+    {
+        me {
+            id
+            username
+        }
+    }
+`

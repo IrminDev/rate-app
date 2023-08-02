@@ -1,53 +1,41 @@
-import { FlatList, View, StyleSheet, Text, Image, Pressable } from 'react-native';
-import useRepositories from '../hooks/useRepositories';
-import { useNavigate } from 'react-router-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { useParams } from 'react-router-native';
+import { GET_REPOSITORY } from '../graphql/queries';
+import { useQuery } from '@apollo/client';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-  image: {
-    width: 50,
-    height: 50,
-  },
-  card:{
-    backgroundColor: 'white',
-    padding: 10,
-    width: '100%',
-  }
+    separator: {
+      height: 10,
+    },
+    image: {
+      width: 50,
+      height: 50,
+    },
+    card:{
+      backgroundColor: 'white',
+      padding: 10,
+      width: '100%',
+    }
 });
 
-const ItemSeparator = () => <View style={styles.separator} />;
+const RepositoryPage = () => {
+    const {id} = useParams()
+    const {data, loading} = useQuery(GET_REPOSITORY, {
+        variables: {id: id},
+        fetchPolicy: 'cache-and-network'
+    })
 
-const RepositoryList = () => {
-  const { repositories } = useRepositories();
+    if(loading){
+        return <Text>Loading...</Text>
+    }
 
-  return <RepositoryListContainer repositories={repositories} />;
-};
+    console.log(data)
 
-export const RepositoryListContainer = ({ repositories }) => {
-  const repoNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
+    const item = data.repository
 
-  return (
-    <FlatList
-      data={repoNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem item={item} />}
-    />
-  )
-};
-
-const RepositoryItem = ({ item }) => {
-  const navigate = useNavigate();
-  const handlePress = () => {
-    navigate(`/repository/${item.id}`);
-  }
-
-  return(
-      <Pressable onPress={handlePress}>
-        <View testID='repositoryItem' style={styles.card} >
+    return (
+    <View testID='repositoryItem' style={styles.card} >
           <View style={{flexDirection: 'row'}}>
               <Image source={{uri: item.ownerAvatarUrl}} style={styles.image} />
               <View style={{width: '100%'}}>
@@ -74,9 +62,13 @@ const RepositoryItem = ({ item }) => {
                   <Text>Ratings</Text>
               </View>
           </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}}>
+                <View style={{backgroundColor: '#0366d6', width: '90%', borderRadius: 5}}>
+                    <Text style={{color: 'white', textAlign: 'center', padding: 10}} onPress={() => Linking.openURL(item.url)} >Open in GitHub</Text>
+                </View>
+          </View>
         </View>
-      </Pressable>
-  )
+    )
 }
 
-export default RepositoryList;
+export default RepositoryPage

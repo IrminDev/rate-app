@@ -11,5 +11,6 @@ export const REPO_DETAILS = gql`
         ratingAverage
         reviewCount
         ownerAvatarUrl
+        url
     }
 `

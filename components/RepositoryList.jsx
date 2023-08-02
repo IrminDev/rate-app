@@ -1,6 +1,5 @@
 import { FlatList, View, StyleSheet, Text, Image } from 'react-native';
-import { useQuery } from '@apollo/client';
-import { GET_REPOSITORIES } from '../graphql/queries';
+import useRepositories from '../hooks/useRepositories';
 
 const styles = StyleSheet.create({
   separator: {
@@ -20,25 +19,28 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  const { data, error, loading } = useQuery(GET_REPOSITORIES);
+  const { repositories } = useRepositories();
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error : {JSON.stringify(error)}</Text>;
+  return <RepositoryListContainer repositories={repositories} />;
+};
 
-  const repositories = data.repositories.edges.map((edge) => edge.node);
+export const RepositoryListContainer = ({ repositories }) => {
+  const repoNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
 
   return (
     <FlatList
-      data={repositories}
+      data={repoNodes}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RenderItem item={item} />}
+      renderItem={({ item }) => <RepositoryItem item={item} />}
     />
-  );
+  )
 };
 
-const RenderItem = ({ item }) => {
+const RepositoryItem = ({ item }) => {
     return(
-        <View style={styles.card} >
+        <View testID='repositoryItem' style={styles.card} >
             <View style={{flexDirection: 'row'}}>
                 <Image source={{uri: item.ownerAvatarUrl}} style={styles.image} />
                 <View style={{width: '100%'}}>

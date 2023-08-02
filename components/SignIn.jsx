@@ -1,6 +1,4 @@
 import SignInForm from './SignInForm'
-import { Formik } from 'formik'
-import { View } from 'react-native'
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn'
 import { useNavigate } from 'react-router-native'
@@ -33,11 +31,7 @@ const SignIn = () => {
       });
   
     return (
-    <View>
-        <Formik initialValues={{username: '', password: ''}} onSubmit={onSubmit} validationSchema={validationSchema}>
-            {({handleSubmit}) => <SignInForm onSubmit={handleSubmit} />}
-        </Formik>
-    </View>
+      <SignInForm onSubmit={onSubmit} validation={validationSchema} initialValues={{username: '', password: ''}} />
   )
 }
 

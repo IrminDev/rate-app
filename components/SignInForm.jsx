@@ -46,7 +46,7 @@ const SignInFormContainer = ({onSubmit}) => {
 
 const SignInForm = ({onSubmit, validation, initialValues}) => {
     return (
-        <View style={styles.container}>
+        <View>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validation}>
                 {({handleSubmit}) => <SignInFormContainer onSubmit={handleSubmit} />}
             </Formik>

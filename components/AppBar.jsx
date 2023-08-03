@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { ME } from '../graphql/queries';
 import { useApolloClient } from '@apollo/client';
 import { useAuthStorage } from '../hooks/useAuthStorage';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const navigate = useNavigate();
   const { data } = useQuery(ME);
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
@@ -28,6 +30,7 @@ const AppBar = () => {
   const signOut = () => {
     authStorage.removeAccessToken();
     apolloClient.resetStore();
+    navigate('/');
   }
 
   return <View style={styles.container}>
@@ -36,6 +39,11 @@ const AppBar = () => {
           <Text style={styles.text}>Repositories</Text>
       </Link>
       {data && data.me ? <>
+        <Link to="/review">
+          <Text style={styles.text}>
+            Create a review
+          </Text>
+        </Link>
         <Pressable onPress={signOut}>
           <Text style={styles.text}>
             Sign out

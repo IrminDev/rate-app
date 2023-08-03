@@ -1,6 +1,7 @@
 import SignInForm from './SignInForm'
 import * as yup from 'yup'
 import useSignIn from '../hooks/useSignIn'
+import { View } from 'react-native'
 import { useNavigate } from 'react-router-native'
 
 const SignIn = () => {
@@ -31,7 +32,9 @@ const SignIn = () => {
       });
   
     return (
-      <SignInForm onSubmit={onSubmit} validation={validationSchema} initialValues={{username: '', password: ''}} />
+      <View>
+        <SignInForm onSubmit={onSubmit} validation={validationSchema} initialValues={{username: '', password: ''}} />
+      </View>
   )
 }
 

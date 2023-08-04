@@ -14,6 +14,32 @@ export const GET_REPOSITORIES = gql`
     ${REPO_DETAILS}
 `
 
+export const GET_HIGHEST_REPOSITORIES = gql`
+    query {
+        repositories(orderBy: RATING_AVERAGE, orderDirection: DESC) {
+            edges {
+                node {
+                    ...RepositoryDetails
+                }
+            }
+        }
+    }
+    ${REPO_DETAILS}
+`
+
+export const GET_LOWEST_REPOSITORIES = gql`
+    query {
+        repositories(orderBy: RATING_AVERAGE, orderDirection: ASC) {
+            edges {
+                node {
+                    ...RepositoryDetails
+                }
+            }
+        }
+    }
+    ${REPO_DETAILS}
+`
+
 export const SIGN_IN = gql`
     mutation authenticate($username: String!, $password: String!) {
         authenticate(credentials: { username: $username, password: $password }) {
